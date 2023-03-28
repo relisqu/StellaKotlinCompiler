@@ -19,4 +19,7 @@ public abstract class Type implements java.io.Serializable {
 
   }
 
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 }

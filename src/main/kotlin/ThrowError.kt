@@ -1,10 +1,13 @@
 import org.syntax.stella.Absyn.Expr
 import org.syntax.stella.Absyn.Type
+import java.lang.Exception
 import kotlin.system.exitProcess
 
-class ThrowError (error: String){
+class ThrowError (assertExpression: Boolean, error: String){
     init {
-        println(error)
-        exitProcess(-1)
+        if(!assertExpression) {
+            println(error)
+            exitProcess(1)
+        }
     }
 }

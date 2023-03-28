@@ -13,6 +13,7 @@ object TypeCheck {
 
 @Throws(Exception::class)
 fun typecheckProgram(program: Program) {
+    var context = Context(mutableMapOf());
     when (program) {
         is AProgram -> program.listdecl_.map {
             when (it) {
@@ -22,17 +23,25 @@ fun typecheckProgram(program: Program) {
                     val returnType = it.returntype_;
                     val params = it.listparamdecl_;
                     val expr = it.expr_;
+                    for (param in params){
+                        when(param){
+                            is AParamDecl->{
+                                println(param.type_)
+                                context.currentVars[param.stellaident_] = calculateExpression(context, expr)
+                            }
+                        }
+                    }
 
-                    val paramExpr= params[0]
+                    val calculatedExpression=calculateExpression(context, expr)
+                    context.currentVars[name]=calculatedExpression;
 
-                    val calculatedExpression=calculateExpression(Context(mutableMapOf()), expr)
-                    when(returnType){
+                        when(returnType){
                         is SomeReturnType->{
                             ThrowError(returnType.type_ == calculatedExpression,"Expected $returnType, got $calculatedExpression")
                         }
                     }
-                    println(calculateExpression(Context(mutableMapOf()), expr))
-                    println("Declared function $name")
+                    println(calculateExpression(context, expr))
+                    println(context.currentVars.toString())
                 }
 
 
@@ -79,12 +88,15 @@ fun calculateExpression(context: Context, expr: Expr): Type {
                     //  ThrowError( function.listtype_[0] == )
                 }
             }
-
+            println("NOT IMPLEMENTED")
             return CheckIfExprIsNumber(context, expr.expr_2);
         }
 
         is ConstInt -> {
             return TypeNat();
+        }
+        is Application ->{
+            val returnExpr = expr.expr_
         }
     }
     return TypeBool();

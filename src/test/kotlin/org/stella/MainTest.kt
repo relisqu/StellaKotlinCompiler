@@ -17,7 +17,9 @@ internal class MainTest {
         "$wellTypedDir/squares.stella",
         "$wellTypedDir/higher-order-1.stella",
         "$wellTypedDir/increment_twice.stella",
-        "$wellTypedDir/logical-operators.stella"
+        "$wellTypedDir/logical-operators.stella",
+        "$wellTypedDir/higher-order-2.stella",
+        "$wellTypedDir/inner-if.stella"
     ])
     @Throws(
         IOException::class,
@@ -48,7 +50,9 @@ internal class MainTest {
         "$illTypedDir/undefined-variable-1.stella",
         "$illTypedDir/undefined-variable-2.stella",
         "$illTypedDir/bad-squares-1.stella",
-        "$illTypedDir/bad-squares-2.stella"
+        "$illTypedDir/bad-squares-2.stella",
+        "$illTypedDir/argument-type-mismatch-3.stella",
+        "$illTypedDir/bad-if-3.stella"
     ])
     @Throws(
         IOException::class,
@@ -60,7 +64,7 @@ internal class MainTest {
         System.setIn(fips)
         var typecheckerFailed = false
         try {
-            main()
+          main()
         } catch (e: java.lang.Exception) {
             typecheckerFailed = true
         }
